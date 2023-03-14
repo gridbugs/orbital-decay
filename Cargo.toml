@@ -12,6 +12,7 @@ members = [
     "ansi-terminal",
     "web",
     "ggez",
+    "sdl2",
     "wgpu",
     "util/vector",
     "util/rand-range",
