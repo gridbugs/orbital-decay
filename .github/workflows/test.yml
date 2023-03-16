@@ -15,7 +15,7 @@ jobs:
         rust-version: stable
         targets: aarch64-apple-darwin
     - uses: actions/checkout@v3
-    - run: cargo build --target=aarch64-apple-darwin
+    - run: cargo build --target=aarch64-apple-darwin --workspace --exclude orbital_decay_sdl2
 
   test-web:
     runs-on: ubuntu-latest
@@ -38,9 +38,12 @@ jobs:
       name: 'Install dependencies (ubuntu)'
       run: |
         sudo apt update
-        sudo apt install libudev-dev libasound2-dev
+        sudo apt install libudev-dev libasound2-dev libsdl2-dev libsdl2-ttf-dev
     - uses: hecrj/setup-rust-action@v1
       with:
         rust-version: ${{ matrix.rust }}
     - uses: actions/checkout@v3
-    - run: cargo test
+    - if: matrix.os == 'ubuntu-latest'
+      run: cargo test --workspace
+    - if: matrix.os != 'ubuntu-latest'
+      run: cargo test --workspace --exclude orbital_decay_sdl2
